@@ -25,7 +25,8 @@
       <v-col cols="12" md="6">
         <v-card class="mb-3 pa-3" v-if="formAdd">
           <v-form @submit.prevent="addTarea">
-            <v-text-field label="Titulo de Tarea" v-model="title" autofocus />
+            <v-text-field label="valida moneda" ref="field" prefix="$" v-model="value" autofocus />
+            <v-text-field label="Titulo de Tarea" v-model="title" />
             <v-textarea label="Descripción de Tarea" v-model="descripcion" />
             <v-btn block color="success" type="submit">Add Tarea</v-btn>
           </v-form>
@@ -50,9 +51,14 @@
 
 <script>
 import axios from "axios";
+import AutoNumeric from "autonumeric";
 export default {
+  mounted() {
+    new AutoNumeric(this.$refs.field.$refs.input);
+  },
   data() {
     return {
+      value: "",
       listaTareas: [],
       title: "",
       descripcion: "",
@@ -69,8 +75,8 @@ export default {
   methods: {
     getTarea() {
       axios
-        // .get(`https://librarycf.herokuapp.com/api/v1.0/books/`)
-        . get(`http://5.189.191.207/api/v1.0/books/`)
+        .get(`https://librarycf.herokuapp.com/api/v1.0/books/`)
+        // . get(`http://5.189.191.207/api/v1.0/books/`)
         .then((res) => {
           // console.log(res.data);
           this.listaTareas = res.data;
@@ -85,9 +91,13 @@ export default {
         descripcion: this.descripcion,
       };
 
+      this.value = this.value.split(",").join("");
+      let k = parseFloat(this.value)
+      console.log(k);
+
       axios
-        // .post(`https://librarycf.herokuapp.com/api/v1.0/books/`, data)
-        .post(`http://5.189.191.207/api/v1.0/books/`, data)
+        .post(`https://librarycf.herokuapp.com/api/v1.0/books/`, data)
+      //   .post(`http://5.189.191.207/api/v1.0/books/`, data)
         .then((res) => {
           this.indexTarea = "";
           this.title = "";
@@ -106,8 +116,8 @@ export default {
     deleteTarea(id) {
       console.log('ingreso ', id);
       axios
-        // .delete(`https://librarycf.herokuapp.com/api/v1.0/books/${id}/`)
-        .delete(`http://5.189.191.207/api/v1.0/books/${id}/`)
+        .delete(`https://librarycf.herokuapp.com/api/v1.0/books/${id}/`)
+        // .delete(`http://5.189.191.207/api/v1.0/books/${id}/`)
         .then((res) => {
           this.getTarea();
         })
@@ -129,8 +139,8 @@ export default {
       };
 
       axios
-        // .put(`https://librarycf.herokuapp.com/api/v1.0/books/${this.idTarea}/`, data)
-        .put(`http://5.189.191.207/api/v1.0/books/${this.idTarea}/`, data)
+        .put(`https://librarycf.herokuapp.com/api/v1.0/books/${this.idTarea}/`, data)
+        // .put(`http://5.189.191.207/api/v1.0/books/${this.idTarea}/`, data)
         .then((res) => {
           this.listaTareas[this.indexTarea].title = res.data.title;
           this.listaTareas[this.indexTarea].descripcion = res.data.descripcion;
