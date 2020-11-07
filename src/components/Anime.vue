@@ -31,7 +31,7 @@
 
             <v-expand-transition>
               <div v-show="show[index].estado">
-                  <!-- <youtube class="ml-3" :video-id="anime.attributes.youtubeVideoId" player-width="auto" player-height="220"></youtube> -->
+                  <youtube class="ml-3" :video-id="anime.attributes.youtubeVideoId" player-width="auto" player-height="220"></youtube>
                 <v-divider></v-divider>
                 <v-card-text class="text-justify">{{anime.attributes.synopsis}}</v-card-text>
               </div> 
