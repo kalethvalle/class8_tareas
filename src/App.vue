@@ -47,7 +47,7 @@
       </v-dialog>
     </v-content>
 
-    <v-navigation-drawer v-model="drawer"  app>
+    <v-navigation-drawer v-model="drawer" permanent  app>
       <v-list-item>
         <v-list-item-avatar>
           <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
