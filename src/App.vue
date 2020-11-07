@@ -8,7 +8,7 @@
  -->
   <v-app>
     <v-app-bar app color="secondary" dence dark>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <!-- <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon> -->
       <v-toolbar-title>Proyecto Vue</v-toolbar-title>
       <v-spacer></v-spacer>
 
