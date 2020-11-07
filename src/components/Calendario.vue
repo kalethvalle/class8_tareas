@@ -278,7 +278,7 @@ import { db } from '../main'
           const events = [];
 
           snapshot.forEach(doc => {
-            console.log(doc.data());
+            // console.log(doc.data());
             let addEvents = doc.data();
             addEvents.id = doc.id;
             events.push(addEvents);

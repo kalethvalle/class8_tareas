@@ -83,9 +83,10 @@ export default {
 
         this.animes = datos.data.data;
 
-        console.log(this.animes);
+        // console.log(this.animes);
       } catch (e) {
         console.log(e);
+        console.log('a ocurrio un error');
       }
     }
   },

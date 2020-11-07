@@ -56,9 +56,10 @@ export default {
           this.valor = "Sin resultados";
         }
 
-        console.log(datos.data);
+        // console.log(datos.data);
       } catch (e) {
         console.log(e);
+        alert('ocurrio un error')
       } finally {
         this.ocultarLoading();
       }
