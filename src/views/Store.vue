@@ -1,7 +1,7 @@
 <template>
-  <v-container :fluid="true">
+  <v-container fluid>
     <v-row class="d-flex flex-wrap">
-        <v-col cols="3" md="3">
+        <v-col cols="12" md="3">
             <v-card >
             <v-card-text>
                 <div>aprendiendo a usar modulos Store</div>
@@ -18,7 +18,7 @@
             </v-card-actions>
             </v-card>
         </v-col>
-        <v-col cols="3" md="3">
+        <v-col cols="12" md="3">
             <h1>pagination query</h1>
             <router-link :to="{query: {pagina: item}}" v-for="(item, index) in paginas" :key="index">
                 <v-btn block color="indigo" dark class="mb-4">

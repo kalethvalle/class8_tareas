@@ -1,5 +1,5 @@
 <template>
-<!-- 
+  <!-- 
   *** crear proyecto con vuetify https://vuetifyjs.com/en/getting-started/quick-start/
   *** como usar las rutas con vuex https://vuex.vuejs.org/guide/modules.html
   *** como hacer calendario con vuetify - firebase https://bluuweb.github.io/
@@ -7,8 +7,9 @@
   *** iconos con mdi https://cdn.materialdesignicons.com/5.0.45/
  -->
   <v-app>
-    <v-app-bar app color="secondary" dence dark>
+    <v-app-bar app color="secondary" dence dark dense>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
       <v-toolbar-title>Proyecto Vue</v-toolbar-title>
       <v-spacer></v-spacer>
 
@@ -36,15 +37,19 @@
     </v-app-bar>
 
     <v-content>
-      <router-view />
       <v-dialog v-model="loading.estado" hide-overlay persistent width="300">
         <v-card :color="loading.color" dark>
           <v-card-text>
-            {{loading.titulo}}
-            <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+            {{ loading.titulo }}
+            <v-progress-linear
+              indeterminate
+              color="white"
+              class="mb-0"
+            ></v-progress-linear>
           </v-card-text>
         </v-card>
       </v-dialog>
+      <router-view id="first" />
     </v-content>
 
     <v-navigation-drawer v-model="drawer" app>
@@ -60,7 +65,13 @@
 
       <v-divider></v-divider>
       <v-list dense>
-        <v-list-item v-for="item in items" :key="item.title" link :to="{name: item.title}" exact>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          link
+          :to="{ name: item.path }"
+          exact
+        >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -71,27 +82,69 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    <v-footer app>
+      <!-- <template v-slot:extension> -->
+      <v-fab-transition>
+        <!-- v-show="!hidden" -->
+        <v-btn
+          color="pink"
+          fab
+          dark
+          mediums
+          absolute
+          top
+          right
+          @click="$vuetify.goTo(target)"
+        >
+          <v-icon>mdi-arrow-up</v-icon>
+        </v-btn>
+      </v-fab-transition>
+      <!-- </template> -->
+      <v-col class="text-center" cols="12">
+        {{ new Date().getFullYear() }} &copy; <strong>Proyecto Vue</strong>
+      </v-col>
+    </v-footer>
   </v-app>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import * as easings from "vuetify/es5/services/goto/easing-patterns";
+import { mapState } from "vuex";
 export default {
   name: "App",
   components: {},
   data: () => ({
+    type: "selector",
+    selector: "#first",
     drawer: true,
     items: [
-      { title: "Home", icon: "mdi-home" },
-      { title: "About", icon: "mdi-forum-outline" },
-      { title: "Tareas", icon: "mdi-pencil-remove" },
-      { title: "Ncalendario", icon: "mdi-calendar" },
-      { title: "Store", icon: "mdi-store" },
-      { title: "Library", icon: "mdi-book" }
-    ]
+      { path: "Home", title: "Valor Dolar Peso Chileno", icon: "mdi-home" },
+      { path: "About", title: "Animes TBT", icon: "mdi-jellyfish" },
+      {
+        path: "Tareas",
+        title: "Organiza mis Tareas",
+        icon: "mdi-folder-network",
+      },
+      {
+        path: "Ncalendario",
+        title: "Calendario Recordatorio",
+        icon: "mdi-calendar",
+      },
+      {
+        path: "Store",
+        title: "Maneja mis Variables Vuex",
+        icon: "mdi-vuetify",
+      },
+      // { path: "Library", title: "New Site", icon: "mdi-book" }
+    ],
   }),
   computed: {
-    ...mapState(['loading'])
+    ...mapState(["loading"]),
+    target() {
+      const value = this["selector"];
+      if (!isNaN(value)) return Number(value);
+      else return value;
+    },
   },
 };
 </script>

@@ -64,9 +64,9 @@
                     height="250"
                   ></youtube>
                   <youtube
-                    class="d-flex d-sm-none"
+                    class="d-flex d-sm-none "
                     :video-id="anime.attributes.youtubeVideoId"
-                    width="330"
+                    width="300"
                     height="250"
                   ></youtube>
                 </v-card>
