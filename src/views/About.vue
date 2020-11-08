@@ -1,7 +1,7 @@
 <template>
-  <v-container>
-    <Anime/>
-  </v-container>
+    <v-main>
+      <Anime/>
+    </v-main>
 </template>
 <script>
 import Anime from '@/components/Anime.vue'

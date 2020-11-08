@@ -11,8 +11,10 @@ import VueAxios from 'vue-axios'
 import firebase from 'firebase/app';
 import 'firebase/firestore'
 import VueTextareaAutosize from 'vue-textarea-autosize';
-Vue.use(VueTextareaAutosize);
+import VueYoutube from 'vue-youtube'
 
+Vue.use(VueYoutube)
+Vue.use(VueTextareaAutosize);
 Vue.use(VueAxios, axios)
 
 const firebaseConfig = {

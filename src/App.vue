@@ -8,7 +8,7 @@
  -->
   <v-app>
     <v-app-bar app color="secondary" dence dark>
-      <!-- <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon> -->
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Proyecto Vue</v-toolbar-title>
       <v-spacer></v-spacer>
 
@@ -47,7 +47,7 @@
       </v-dialog>
     </v-content>
 
-    <v-navigation-drawer v-model="drawer" permanent  app>
+    <v-navigation-drawer v-model="drawer" app>
       <v-list-item>
         <v-list-item-avatar>
           <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
@@ -80,7 +80,7 @@ export default {
   name: "App",
   components: {},
   data: () => ({
-    drawer: false,
+    drawer: true,
     items: [
       { title: "Home", icon: "mdi-home" },
       { title: "About", icon: "mdi-forum-outline" },
