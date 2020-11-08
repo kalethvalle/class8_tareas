@@ -1,4 +1,22 @@
 <template>
+    <v-main>
+      <Books/>
+    </v-main>
+</template>
+ 
+<script>
+// @ is an alias to /src
+import Books from '@/components/Books.vue'
+
+export default {
+  name: 'Home',
+  components: {
+    Books
+  }
+}
+</script>
+
+<!--template>
   <v-container :fluid="true">
     <v-row class="d-flex flex-wrap">
       <v-col cols="12" md="6">
@@ -158,4 +176,4 @@ export default {
     },
   },
 };
-</script>
+</script-->
