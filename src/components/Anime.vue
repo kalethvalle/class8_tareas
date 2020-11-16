@@ -55,17 +55,11 @@
             <v-card-text class="mt-3">
               <v-card flat>
                 <youtube
-                  class="d-none d-sm-flex d-md-flex"
                   :video-id="anime.attributes.youtubeVideoId"
-                  width="650"
-                  height="250"
+                  width="100%"
+                  height="100%"
                 ></youtube>
-                <youtube
-                  class="d-flex d-sm-none"
-                  :video-id="anime.attributes.youtubeVideoId"
-                  width="300"
-                  height="250"
-                ></youtube>
+
               </v-card>
               <p class="text-justify mt-2 text--primary">
                 {{ anime.attributes.synopsis }}
