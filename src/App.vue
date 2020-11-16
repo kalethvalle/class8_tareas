@@ -13,8 +13,10 @@
       <v-toolbar-title>Proyecto Vue</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
+      <v-btn icon
+        @dblclick="show = !show"
+      >
+        <v-icon>{{ show ? 'mdi-heart-outline' : 'mdi-heart' }}</v-icon>
       </v-btn>
 
       <v-btn icon>
@@ -116,6 +118,7 @@ export default {
   data: () => ({
     type: "selector",
     selector: "#first",
+    show: true,
     drawer: true,
     items: [
       { path: "Home", title: "Valor Dolar Peso Chileno", icon: "mdi-home" },

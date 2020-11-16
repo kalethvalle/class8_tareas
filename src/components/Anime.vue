@@ -1,94 +1,90 @@
 <template>
-    <v-container fluid>
-      <div class="d-flex justify-space-between text-center">
-        <v-btn
-          class="ma-2"
-          outlined
-          small
-          fab
-          color="indigo"
-          @click="rsAnime(20)"
-        >
-          <v-icon>mdi-chevron-left</v-icon>
-        </v-btn>
-        <v-btn
-          class="ma-2"
-          outlined
-          small
-          fab
-          color="indigo"
-          @click="sgAnime(20)"
-        >
-          <v-icon>mdi-chevron-right</v-icon>
-        </v-btn>
-      </div>
-      <v-row dense>
-        <v-col
-          cols="12"
-          sm="6"
-          md="4"
-          lg="3"
-          v-for="(anime, index) in animes"
-          :key="index"
-        >
-   
-          <v-card class="mx-auto" elevation="14">
-            <v-img
-              :src="anime.attributes.posterImage.medium"
-              @click="mostrarSynopsis(index)"
-            ></v-img>
+  <v-container fluid>
+    <div class="d-flex justify-space-between text-center">
+      <v-btn
+        class="ma-2"
+        outlined
+        small
+        fab
+        color="indigo"
+        @click="rsAnime(20)"
+      >
+        <v-icon>mdi-chevron-left</v-icon>
+      </v-btn>
+      <v-btn
+        class="ma-2"
+        outlined
+        small
+        fab
+        color="indigo"
+        @click="sgAnime(20)"
+      >
+        <v-icon>mdi-chevron-right</v-icon>
+      </v-btn>
+    </div>
+    <v-row dense>
+      <v-col
+        cols="12"
+        sm="6"
+        md="4"
+        lg="3"
+        v-for="(anime, index) in animes"
+        :key="index"
+      >
+        <v-card class="mx-auto" elevation="14">
+          <v-img
+            :src="anime.attributes.posterImage.medium"
+            @click="mostrarSynopsis(index)"
+          ></v-img>
+          <v-card-title>{{ anime.attributes.titles.en }}</v-card-title>
+          <v-card-subtitle>{{ anime.attributes.titles.ja_jp }}</v-card-subtitle>
+
+          <v-card-text class="text--primary">
+            <p>{{ anime.attributes.ageRatingGuide }}</p>
+            <p>{{ anime.attributes.status }}</p>
+          </v-card-text>
+        </v-card>
+
+        <v-dialog v-model="show[index].estado" width="700">
+          <v-card>
             <v-card-title>{{ anime.attributes.titles.en }}</v-card-title>
-            <v-card-subtitle>{{
-              anime.attributes.titles.ja_jp
-            }}</v-card-subtitle>
-
-            <v-card-text class="text--primary">
-              <p>{{ anime.attributes.ageRatingGuide }}</p>
-              <p>{{ anime.attributes.status }}</p>
+            <v-card-subtitle>
+              {{ anime.attributes.titles.ja_jp }}
+            </v-card-subtitle>
+            <v-divider class="mx-4"></v-divider>
+            <v-card-text class="mt-3">
+              <v-card flat>
+                <youtube
+                  class="d-none d-sm-flex d-md-flex"
+                  :video-id="anime.attributes.youtubeVideoId"
+                  width="650"
+                  height="250"
+                ></youtube>
+                <youtube
+                  class="d-flex d-sm-none"
+                  :video-id="anime.attributes.youtubeVideoId"
+                  width="300"
+                  height="250"
+                ></youtube>
+              </v-card>
+              <p class="text-justify mt-2 text--primary">
+                {{ anime.attributes.synopsis }}
+              </p>
             </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" text @click="show[index].estado = false">
+                Cerrar
+              </v-btn>
+            </v-card-actions>
           </v-card>
-
-          <v-dialog v-model="show[index].estado" width="700">
-            <v-card>
-              <v-card-title>{{ anime.attributes.titles.en }}</v-card-title>
-              <v-card-subtitle>
-                {{ anime.attributes.titles.ja_jp }}
-              </v-card-subtitle>
-              <v-divider class="mx-4"></v-divider>
-              <v-card-text class="mt-3">
-                <v-card flat>
-                  <youtube
-                    class="d-none d-sm-flex d-md-flex"
-                    :video-id="anime.attributes.youtubeVideoId"
-                    width="650"
-                    height="250"
-                  ></youtube>
-                  <youtube
-                    class="d-flex d-sm-none "
-                    :video-id="anime.attributes.youtubeVideoId"
-                    width="300"
-                    height="250"
-                  ></youtube>
-                </v-card>
-                <p class="text-justify mt-2 text--primary">
-                  {{ anime.attributes.synopsis }}
-                </p>
-              </v-card-text>
-
-              <v-divider></v-divider>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" text @click="show[index].estado = false">
-                  Cerrar
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-col>
-      </v-row>
-    </v-container>
-  
+        </v-dialog>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script>
 import axios from "axios";
@@ -143,6 +139,7 @@ export default {
       this.show.push({ id: i, estado: false });
     }
     this.getAnime(this.index);
+    
   },
 };
 </script>
