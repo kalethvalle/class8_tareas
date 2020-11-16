@@ -6,7 +6,7 @@
         <!-- <h3>Valor del Dolar</h3> -->
       </v-col>
       <v-col cols="12" id="materia_prima">
-        <h3>Materia Prima</h3>
+        
       </v-col>
       <v-col cols="12" md="4">
         <h3>aprendiendo a usar modulos Store</h3>
@@ -94,7 +94,7 @@ export default {
         {
             "symbol": "FX_IDC:USDCOP",
             "width": "100%",
-            "height": 450,
+            "height": "100%",
             "locale": "es",
             "dateRange": "12M",
             "colorTheme": "light",
@@ -118,8 +118,8 @@ export default {
         {
             "interval": "1m",
             "width": "100%",
+            "height": "450",
             "isTransparent": false,
-            "height": "100%",
             "symbol": "FX_IDC:USDCOP",
             "showIntervalTabs": true,
             "locale": "es",
@@ -127,6 +127,9 @@ export default {
         }`;
 
       compra_venta.appendChild(srcCompraVenta);
+
+      const divprim = document.createElement("div")
+      divprim.setAttribute("class", "d-none d-sm-flex d-md-flex")
 
       srcMateriaPrima.setAttribute(
         "src",
@@ -174,8 +177,10 @@ export default {
             "isTransparent": false,
             "locale": "es"
         }`;
-        materia_prima.appendChild(srcMateriaPrima);
-      //   console.log(vlr_dolar);
+
+        divprim.appendChild(srcMateriaPrima)
+        materia_prima.appendChild(divprim);
+        console.log(materia_prima); 
     },
   },
   watch: {
