@@ -5,9 +5,7 @@
       <v-col cols="12" md="6" id="vlr_dolar">
         <!-- <h3>Valor del Dolar</h3> -->
       </v-col>
-      <v-col cols="12" id="materia_prima">
-        
-      </v-col>
+      <v-col cols="12" id="materia_prima"> </v-col>
       <v-col cols="12" md="4">
         <h3>aprendiendo a usar modulos Store</h3>
         <v-card>
@@ -21,6 +19,13 @@
                 </li>
               </ul>
             </div>
+            <v-text-field
+              label="valida moneda"
+              ref="field"
+              color="secondary"
+              prefix="$"
+              v-model="value"
+            />
           </v-card-text>
           <v-card-actions>
             <v-btn text :color="loading.color" @click="aumentarContador(1)"
@@ -46,10 +51,12 @@
 </template>
 <script>
 import { mapState, mapMutations } from "vuex";
+import AutoNumeric from "autonumeric";
 export default {
   data() {
     return {
       paginas: [1, 2, 3, 4, 5],
+      value: "",
     };
   },
   computed: {
@@ -59,6 +66,7 @@ export default {
   },
   mounted() {
     this.creando();
+    new AutoNumeric(this.$refs.field.$refs.input);
   },
   methods: {
     ...mapMutations("contador", ["aumentarContador"]),
@@ -128,8 +136,8 @@ export default {
 
       compra_venta.appendChild(srcCompraVenta);
 
-      const divprim = document.createElement("div")
-      divprim.setAttribute("class", "d-none d-sm-flex d-md-flex")
+      const divprim = document.createElement("div");
+      divprim.setAttribute("class", "d-none d-sm-flex d-md-flex");
 
       srcMateriaPrima.setAttribute(
         "src",
@@ -178,9 +186,9 @@ export default {
             "locale": "es"
         }`;
 
-        divprim.appendChild(srcMateriaPrima)
-        materia_prima.appendChild(divprim);
-        console.log(materia_prima); 
+      divprim.appendChild(srcMateriaPrima);
+      materia_prima.appendChild(divprim);
+      console.log(materia_prima);
     },
   },
   watch: {

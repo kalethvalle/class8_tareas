@@ -1,48 +1,117 @@
 <template>
   <v-container fluid>
     <v-row class="d-flex flex-wrap">
-      <v-col cols="12" md="6">
-        <v-card class="mb-3" v-for="(item, index) in listaTareas" :key="index">
+      <v-col cols="12">
+        <v-card>
+          <v-system-bar window dark color="indigo" height="20">
+            <!-- <v-icon size="18">mdi-account-multiple</v-icon> -->
+            <h3>Organiza mis Tareas</h3>
+            <v-spacer></v-spacer>
+          </v-system-bar>
           <v-card-text>
-            <v-chip color="fff" label text-color="black">
-              <v-icon left>mdi-label</v-icon>
-              <strong>{{ item.title }}</strong>
-            </v-chip>
+            <v-data-table
+              :loading="load"
+              :headers="headers"
+              :items="listaTareas"
+              :items-per-page="5"
+            >
+              <template v-slot:top>
+                <v-toolbar flat>
+                  <v-toolbar-title>Todo</v-toolbar-title>
+                  <v-divider class="mx-4" inset vertical></v-divider>
+                  <v-spacer></v-spacer>
+                  <v-dialog v-model="formAdd" max-width="500px">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        color="indigo"
+                        dark
+                        class="mb-2"
+                        v-bind="attrs"
+                        v-on="on"
+                        rounded
+                      >
+                        <v-icon>mdi-plus</v-icon>
+                        new Task
+                      </v-btn>
+                    </template>
+                    <v-card>
+                      <v-card-text>
+                        <v-form @submit.prevent="addTarea">
+                          <v-text-field
+                            label="Titulo de Tarea"
+                            v-model="title"
+                          />
+                          <v-textarea
+                            label="Descripción de Tarea"
+                            v-model="descripcion"
+                          />
+                          <v-btn block color="success" type="submit"
+                            >Add Tarea</v-btn
+                          >
+                        </v-form>
+                      </v-card-text>
+                    </v-card>
+                  </v-dialog>
 
-            <div>
-              <br>
-              <p class="font-weight-bold text-justify">
-                <v-icon>mdi-book-open-variant</v-icon>
-                {{ item.descripcion }}
-              </p>
-            </div>
-            <v-btn color="warning" @click="editar(item.id, index)">Editar</v-btn>
-            <v-btn class="ma-2" color="error" @click="deleteTarea(item.id)">Eliminar</v-btn>
+                  <v-dialog v-model="dialogDelete" max-width="500px">
+                    <v-card>
+                      <v-card-title class="headline"
+                        >Are you sure you want to delete this
+                        item?</v-card-title
+                      >
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="blue darken-1" text @click="closeDelete"
+                          >Cancel</v-btn
+                        >
+                        <v-btn
+                          color="blue darken-1"
+                          text
+                          @click="deleteItemConfirm"
+                          >OK</v-btn
+                        >
+                        <v-spacer></v-spacer>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </v-toolbar>
+              </template>
+              <template v-slot:item.actions="{ item }">
+                <v-icon small class="mr-2" @click="editar(item)">
+                  mdi-pencil
+                </v-icon>
+                <v-icon small @click="deleteTarea(item.id)">
+                  mdi-delete
+                </v-icon>
+              </template>
+
+              <template v-slot:no-data>
+                <v-row>
+                    <v-col cols="12">
+                        <v-icon size="100">mdi-check</v-icon>
+                        <h2>No se encontraron Task</h2>
+                    </v-col>
+                </v-row>
+              </template>
+            </v-data-table>
           </v-card-text>
         </v-card>
       </v-col>
 
-      <v-col cols="12" md="6">
-        <v-card class="mb-3 pa-3" v-if="formAdd">
-          <v-form @submit.prevent="addTarea">
-            <v-text-field label="valida moneda" ref="field" prefix="$" v-model="value" autofocus />
-            <v-text-field label="Titulo de Tarea" v-model="title" />
-            <v-textarea label="Descripción de Tarea" v-model="descripcion" />
-            <v-btn block color="success" type="submit">Add Tarea</v-btn>
-          </v-form>
-        </v-card>
-
-        <v-card class="mb-3 pa-3" v-if="!formAdd">
-          <v-form @submit.prevent="editTarea">
-            <v-text-field label="Titulo de Tarea" v-model="title" autofocus />
-            <v-textarea label="Descripción de Tarea" v-model="descripcion"  />
-            <v-btn block color="warning" type="submit">Edit Tarea</v-btn>
-          </v-form>
-        </v-card>
-      </v-col>
     </v-row>
 
-    <v-snackbar v-model="snackbar"> 
+    <v-dialog v-model="formEdit" width="500">
+      <v-card>
+        <v-card-text>
+          <v-form @submit.prevent="editTarea">
+            <v-text-field label="Titulo de Tarea" v-model="title" autofocus />
+            <v-textarea label="Descripción de Tarea" v-model="descripcion" />
+            <v-btn block color="warning" type="submit">Edit Tarea</v-btn>
+          </v-form>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+    <v-snackbar v-model="snackbar">
       {{ msg }}
       <v-btn color="pink" text @click="snackbar = false">Cerrar</v-btn>
     </v-snackbar>
@@ -51,22 +120,30 @@
 
 <script>
 import axios from "axios";
-import AutoNumeric from "autonumeric";
+
 export default {
-  mounted() {
-    new AutoNumeric(this.$refs.field.$refs.input);
-  },
   data() {
     return {
-      value: "",
+      headers: [
+        {
+          text: "Task Title",
+          align: "start",
+          sortable: false,
+          value: "title",
+        },
+        { text: "Descrip Task", value: "descripcion", sortable: false },
+        { text: "Actions", value: "actions", sortable: false },
+      ],
       listaTareas: [],
       title: "",
       descripcion: "",
       snackbar: false,
       msg: "",
-      formAdd: true,
+      formAdd: false,
+      formEdit: false,
       indexTarea: "",
       idTarea: "",
+      load: false,
     };
   },
   created() {
@@ -74,12 +151,15 @@ export default {
   },
   methods: {
     getTarea() {
+      this.load = true;
+      this.listaTareas = [];
       axios
         .get(`https://librarycf.herokuapp.com/api/v1.0/books/`)
         // . get(`http://5.189.191.207/api/v1.0/books/`)
         .then((res) => {
           // console.log(res.data);
           this.listaTareas = res.data;
+          this.load = false;
         })
         .catch((err) => {
           console.log(err);
@@ -91,19 +171,19 @@ export default {
         descripcion: this.descripcion,
       };
 
-      this.value = this.value.split(",").join("");
-      let k = parseFloat(this.value)
-      console.log(k);
+      //   this.value = this.value.split(",").join("");
+      //   let k = parseFloat(this.value);
+      //   console.log(k);
 
       axios
         .post(`https://librarycf.herokuapp.com/api/v1.0/books/`, data)
-      //   .post(`http://5.189.191.207/api/v1.0/books/`, data)
+        //   .post(`http://5.189.191.207/api/v1.0/books/`, data)
         .then((res) => {
           this.indexTarea = "";
           this.title = "";
           this.descripcion = "";
           this.snackbar = true;
-          this.formAdd = true;
+          this.formAdd = false;
           this.msg = "Tarea agregada con Exito ...!";
           this.getTarea();
         })
@@ -111,10 +191,9 @@ export default {
           this.snackbar = true;
           this.msg = "a ocurrido un Error ...!";
         });
-
     },
     deleteTarea(id) {
-      console.log('ingreso ', id);
+      console.log("ingreso ", id);
       axios
         .delete(`https://librarycf.herokuapp.com/api/v1.0/books/${id}/`)
         // .delete(`http://5.189.191.207/api/v1.0/books/${id}/`)
@@ -122,15 +201,15 @@ export default {
           this.getTarea();
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
-    editar(id, index) {
-      this.formAdd = false;
-      this.title = this.listaTareas[index].title;
-      this.descripcion = this.listaTareas[index].descripcion;
-      this.idTarea = id;
-      this.indexTarea = index;
+    editar(item) {
+      console.log(item);
+      this.formEdit = true;
+      this.title = item.title;
+      this.descripcion = item.descripcion;
+      this.idTarea = item.id;
     },
     editTarea() {
       let data = {
@@ -139,16 +218,18 @@ export default {
       };
 
       axios
-        .put(`https://librarycf.herokuapp.com/api/v1.0/books/${this.idTarea}/`, data)
+        .put(
+          `https://librarycf.herokuapp.com/api/v1.0/books/${this.idTarea}/`,
+          data
+        )
         // .put(`http://5.189.191.207/api/v1.0/books/${this.idTarea}/`, data)
         .then((res) => {
-          this.listaTareas[this.indexTarea].title = res.data.title;
-          this.listaTareas[this.indexTarea].descripcion = res.data.descripcion;
+          this.getTarea();
           this.indexTarea = "";
           this.title = "";
           this.descripcion = "";
           this.snackbar = true;
-          this.formAdd = true;
+          this.formEdit = false;
           this.msg = "Tarea se modifico con exito ...!";
         })
         .catch((err) => {
