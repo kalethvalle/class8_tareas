@@ -36,7 +36,7 @@
                     </template>
                     <v-card>
                       <v-card-text>
-                        <v-form @submit.prevent="addTarea">
+                        <v-form @submit.prevent="addTarea" class="pa-3">
                           <v-text-field
                             label="Titulo de Tarea"
                             v-model="title"
@@ -55,19 +55,21 @@
 
                   <v-dialog v-model="dialogDelete" max-width="500px">
                     <v-card>
-                      <v-card-title class="headline"
-                        >Are you sure you want to delete this
-                        item?</v-card-title
-                      >
+                      <v-card-title class="headline">
+                        Esta seguro de Eliminar esta tarea
+                      </v-card-title>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" text @click="closeDelete"
+                        <v-btn
+                          color="blue darken-1"
+                          text
+                          @click="taskDelete = false"
                           >Cancel</v-btn
                         >
                         <v-btn
                           color="blue darken-1"
                           text
-                          @click="deleteItemConfirm"
+                          @click="taskDelete = true"
                           >OK</v-btn
                         >
                         <v-spacer></v-spacer>
@@ -87,23 +89,22 @@
 
               <template v-slot:no-data>
                 <v-row>
-                    <v-col cols="12">
-                        <v-icon size="100">mdi-check</v-icon>
-                        <h2>No se encontraron Task</h2>
-                    </v-col>
+                  <v-col cols="12">
+                    <v-icon size="100">mdi-check</v-icon>
+                    <h2>No se encontraron Task</h2>
+                  </v-col>
                 </v-row>
               </template>
             </v-data-table>
           </v-card-text>
         </v-card>
       </v-col>
-
     </v-row>
 
     <v-dialog v-model="formEdit" width="500">
       <v-card>
         <v-card-text>
-          <v-form @submit.prevent="editTarea">
+          <v-form @submit.prevent="editTarea" class="pa-3">
             <v-text-field label="Titulo de Tarea" v-model="title" autofocus />
             <v-textarea label="Descripción de Tarea" v-model="descripcion" />
             <v-btn block color="warning" type="submit">Edit Tarea</v-btn>
@@ -131,7 +132,12 @@ export default {
           sortable: false,
           value: "title",
         },
-        { text: "Descrip Task",  align: "start", value: "descripcion", sortable: false },
+        {
+          text: "Descrip Task",
+          align: "start",
+          value: "descripcion",
+          sortable: false,
+        },
         { text: "Actions", align: "center", value: "actions", sortable: false },
       ],
       listaTareas: [],
@@ -141,8 +147,10 @@ export default {
       msg: "",
       formAdd: false,
       formEdit: false,
-      indexTarea: "",
+      //   indexTarea: "",
       idTarea: "",
+      dialogDelete: false,
+      taskDelete: false,
       load: false,
     };
   },
@@ -179,7 +187,7 @@ export default {
         .post(`https://librarycf.herokuapp.com/api/v1.0/books/`, data)
         //   .post(`http://5.189.191.207/api/v1.0/books/`, data)
         .then((res) => {
-          this.indexTarea = "";
+          //   this.indexTarea = "";
           this.title = "";
           this.descripcion = "";
           this.snackbar = true;
@@ -193,7 +201,7 @@ export default {
         });
     },
     deleteTarea(id) {
-    //   console.log("ingreso ", id);
+      console.log("ingreso ", id);
       axios
         .delete(`https://librarycf.herokuapp.com/api/v1.0/books/${id}/`)
         // .delete(`http://5.189.191.207/api/v1.0/books/${id}/`)
@@ -205,7 +213,7 @@ export default {
         });
     },
     editar(item) {
-    //   console.log(item);
+      //   console.log(item);
       this.formEdit = true;
       this.title = item.title;
       this.descripcion = item.descripcion;
@@ -225,7 +233,7 @@ export default {
         // .put(`http://5.189.191.207/api/v1.0/books/${this.idTarea}/`, data)
         .then((res) => {
           this.getTarea();
-          this.indexTarea = "";
+          //   this.indexTarea = "";
           this.title = "";
           this.descripcion = "";
           this.snackbar = true;

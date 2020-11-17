@@ -11,10 +11,10 @@
       app
       clipped-right
       flat
-      prominent
-      color="accent"
+      dense
+      color="secondary"
       dark
-      src="./assets/fondo.jpg"
+      
     >
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Proyecto Vue</v-toolbar-title>
@@ -60,15 +60,15 @@
     </v-content>
 
     <v-navigation-drawer v-model="drawer" app>
-      <!-- <v-avatar
+      <v-avatar
         class="d-block text-center mx-auto mt-4"
         color="grey darken-1"
         size="50"
       >
         <v-icon dark> mdi-account </v-icon>
-      </v-avatar> -->
+      </v-avatar>
 
-      <v-sheet color="grey lighten-5" height="50" width="100%"></v-sheet>
+      <!-- <v-sheet color="grey lighten-5" height="50" width="100%"></v-sheet> -->
       <v-divider class="mx-1 my-3"></v-divider>
       <v-list shaped>
         <v-list-item
