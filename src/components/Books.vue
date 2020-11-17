@@ -131,7 +131,7 @@ export default {
           sortable: false,
           value: "title",
         },
-        { text: "Descrip Task", align: "start", value: "descripcion", sortable: false },
+        { text: "Descrip Task",  align: "start", value: "descripcion", sortable: false },
         { text: "Actions", align: "center", value: "actions", sortable: false },
       ],
       listaTareas: [],
@@ -193,7 +193,7 @@ export default {
         });
     },
     deleteTarea(id) {
-      console.log("ingreso ", id);
+    //   console.log("ingreso ", id);
       axios
         .delete(`https://librarycf.herokuapp.com/api/v1.0/books/${id}/`)
         // .delete(`http://5.189.191.207/api/v1.0/books/${id}/`)
@@ -205,7 +205,7 @@ export default {
         });
     },
     editar(item) {
-      console.log(item);
+    //   console.log(item);
       this.formEdit = true;
       this.title = item.title;
       this.descripcion = item.descripcion;
