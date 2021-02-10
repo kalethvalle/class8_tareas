@@ -21,11 +21,13 @@
             </div>
             <v-text-field
               label="valida moneda"
-              ref="field"
               color="secondary"
+              ref="valor_pagar"
               prefix="$"
-              v-model="value"
+              v-model="numeroA"
             />
+            <v-btn @click="numer" class="mr-2">ver numer</v-btn> {{numeroB}}
+            
           </v-card-text>
           <v-card-actions>
             <v-btn text :color="loading.color" @click="aumentarContador(1)"
@@ -56,7 +58,8 @@ export default {
   data() {
     return {
       paginas: [1, 2, 3, 4, 5],
-      value: "",
+      numeroA: null,
+      numeroB: null,
     };
   },
   computed: {
@@ -66,10 +69,36 @@ export default {
   },
   mounted() {
     this.creando();
-    new AutoNumeric(this.$refs.field.$refs.input);
+    // new AutoNumeric(this.$refs.field.$refs.input);
   },
   methods: {
     ...mapMutations("contador", ["aumentarContador"]),
+    numer() {
+      let a = parseFloat(this.numeroA.replace(/,/g, ""));
+      let b = (a * 3.7) / 100;
+
+      // console.log(`a: ${a} - b: ${b}`);
+
+      let num = a + b;
+      console.log("suma: ", num);
+
+      if (!isNaN(num)) {
+        this.numeroB = this.formatNumero(num.toString() || "");
+      } else {
+        this.numeroB = this.formatNumero(num.toString() || "");
+      }
+    },
+    formatNumero: function (val) {
+      console.log(val);
+      var mask = IMask.createMask({
+        mask: Number,
+        thousandsSeparator: ",",
+        radix: ".",
+        min: -9999999999,
+      });
+      mask.resolve(val.toString());
+      return `${mask.value}`;
+    },
     creando() {
       const vlr_dolar = document.getElementById("vlr_dolar");
       const compra_venta = document.getElementById("compra_venta");
@@ -196,6 +225,20 @@ export default {
       immediate: true,
       handler(seccion) {
         console.log(`Seccion a cambiado: ${seccion}`);
+      },
+    },
+    numeroA: {
+      handler(valnew, valold) {
+        let num = valnew || "";
+        let new_val = this.formatNumero(num);
+        console.log(new_val);
+
+        this.numeroA = new_val;
+        setTimeout(() => {
+          this.$refs.valor_pagar.$el.getElementsByTagName(
+            "input"
+          )[0].value = new_val;
+        }, 100);
       },
     },
   },

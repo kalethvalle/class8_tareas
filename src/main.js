@@ -8,6 +8,7 @@ import '@mdi/font/css/materialdesignicons.css'
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import IMask from "imask";
 import firebase from 'firebase/app';
 import 'firebase/firestore'
 import VueTextareaAutosize from 'vue-textarea-autosize';
@@ -46,6 +47,7 @@ Vue.config.warnHandler = function(msg, vm, trace) {
 new Vue({
     router,
     store,
+    IMask,
     vuetify,
     render: h => h(App)
 }).$mount('#app')
