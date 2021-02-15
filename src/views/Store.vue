@@ -26,8 +26,8 @@
               prefix="$"
               v-model="numeroA"
             />
-            <v-btn @click="numer" class="mr-2">ver numer</v-btn> {{numeroB}}
-            
+            <v-btn @click="numer" class="mr-2">ver numer</v-btn> {{ numeroB }}
+            <v-btn @click="toastNotifications">Toas Activate</v-btn>
           </v-card-text>
           <v-card-actions>
             <v-btn text :color="loading.color" @click="aumentarContador(1)"
@@ -73,6 +73,14 @@ export default {
   },
   methods: {
     ...mapMutations("contador", ["aumentarContador"]),
+    toastNotifications() {
+      this.$toast.open({
+        message: "Something went wrong!",
+        type: "success",
+        duration: 5000,
+        // all of other options may go here
+      });
+    },
     numer() {
       let a = parseFloat(this.numeroA.replace(/,/g, ""));
       let b = (a * 3.7) / 100;

@@ -13,7 +13,12 @@ import firebase from 'firebase/app';
 import 'firebase/firestore'
 import VueTextareaAutosize from 'vue-textarea-autosize';
 import VueYoutube from 'vue-youtube'
+import VueToast from 'vue-toast-notification';
+// Import one of the available themes
+//import 'vue-toast-notification/dist/theme-default.css';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
+Vue.use(VueToast);
 Vue.use(VueYoutube)
 Vue.use(VueTextareaAutosize);
 Vue.use(VueAxios, axios)
