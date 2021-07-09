@@ -5,7 +5,7 @@ module.exports = {
 
     // publicPath: '/android_asset/www/',
 
-    // pluginOptions: {
-    //     cordovaPath: 'src-cordova'
-    // }
+    pluginOptions: {
+        cordovaPath: 'src-cordova'
+    }
 }
