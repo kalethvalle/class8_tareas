@@ -3,9 +3,9 @@ module.exports = {
         "vuetify"
     ],
 
-    publicPath: '/android_asset/www/',
+    // publicPath: '/android_asset/www/',
 
-    pluginOptions: {
-        cordovaPath: 'src-cordova'
-    }
+    // pluginOptions: {
+    //     cordovaPath: 'src-cordova'
+    // }
 }
