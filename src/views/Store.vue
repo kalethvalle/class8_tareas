@@ -55,9 +55,9 @@
 import { mapState, mapMutations } from "vuex";
 import AutoNumeric from "autonumeric";
 export default {
-  data() {
+  data() { 
     return {
-      paginas: [1, 2, 3, 4, 5],
+      paginas: [1, 2, 3, 4, 5], 
       numeroA: null,
       numeroB: null,
     };

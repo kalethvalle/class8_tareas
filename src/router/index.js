@@ -38,6 +38,12 @@ const routes = [{
         name: 'Library',
         component: () =>
             import ( /* webpackChunkName: "Cobol" */ '../views/Library.vue')
+    },
+    {
+        path: '/Websocket',
+        name: 'Websocket',
+        component: () =>
+            import ( /* webpackChunkName: "Cobol" */ '../views/WsDjango.vue')
     }
 
 ]

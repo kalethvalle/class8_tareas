@@ -140,6 +140,11 @@ export default {
         title: "Maneja mis Variables Vuex",
         icon: "mdi-vuetify",
       },
+      {
+        path: "Websocket",
+        title: "Websocket Django",
+        icon: "mdi-language-python",
+      },
       // { path: "Library", title: "New Site", icon: "mdi-book" }
     ],
   }),
